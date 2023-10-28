@@ -1,6 +1,8 @@
-package br.com.kardec.testes;
+package br.com.kardec.loja.testes;
 
+import br.com.kardec.loja.dao.ProdudoDao;
 import br.com.kardec.loja.modelo.Produto;
+import br.com.kardec.loja.util.JPAUtil;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -15,11 +17,11 @@ public class CadastroDeProduto {
         celular.setDescricao("Barato e bom");
         celular.setPreco(new BigDecimal("800"));
 
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("loja");
-        EntityManager em = factory.createEntityManager();
+        EntityManager em = JPAUtil.getEntityManager();
+        ProdudoDao dao = new ProdudoDao(em);
 
         em.getTransaction().begin();
-        em.persist(celular);
+        dao.cadastrar(celular);
         em.getTransaction().commit();
         em.close();
     }
