@@ -1,10 +1,7 @@
 package br.com.kardec.loja.dao;
-
 import br.com.kardec.loja.modelo.Produto;
-
 import javax.persistence.EntityManager;
 import java.math.BigDecimal;
-import java.sql.Struct;
 import java.util.List;
 
 public class ProdudoDao {

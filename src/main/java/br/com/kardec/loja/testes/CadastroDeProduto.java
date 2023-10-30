@@ -5,7 +5,6 @@ import br.com.kardec.loja.dao.ProdudoDao;
 import br.com.kardec.loja.modelo.Categoria;
 import br.com.kardec.loja.modelo.Produto;
 import br.com.kardec.loja.util.JPAUtil;
-
 import javax.persistence.EntityManager;
 import java.math.BigDecimal;
 import java.util.List;

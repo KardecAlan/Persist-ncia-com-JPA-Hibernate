@@ -1,8 +1,6 @@
 package br.com.kardec.loja.dao;
 
 import br.com.kardec.loja.modelo.Categoria;
-import br.com.kardec.loja.modelo.Produto;
-
 import javax.persistence.EntityManager;
 
 public class CategoriaDao {
