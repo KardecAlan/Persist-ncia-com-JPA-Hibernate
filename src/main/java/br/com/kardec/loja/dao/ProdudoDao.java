@@ -3,6 +3,7 @@ package br.com.kardec.loja.dao;
 import br.com.kardec.loja.modelo.Produto;
 
 import javax.persistence.EntityManager;
+import java.sql.Struct;
 import java.util.List;
 
 public class ProdudoDao {
@@ -33,5 +34,15 @@ public class ProdudoDao {
     public List<Produto> buscarTodos(){
         String jpql = "SELECT p FROM Produto p";
         return em.createQuery(jpql, Produto.class).getResultList();
+    }
+
+    public List<Produto> buscarPorNome(String nome){
+        String jpql = "SELECT p FROM Produto p WHERE p.nome = :nome";
+        return em.createQuery(jpql, Produto.class).setParameter("nome", nome).getResultList();
+    }
+
+    public List<Produto> buscarPorNomeDaCategoria(String nome){
+        String jpql = "SELECT p FROM Produto p WHERE p.categoria.nome = :nome";
+        return em.createQuery(jpql, Produto.class).setParameter("nome", nome).getResultList();
     }
 }
