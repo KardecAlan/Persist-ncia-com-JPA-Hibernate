@@ -6,47 +6,16 @@ import br.com.kardec.loja.dao.PedidoDao;
 import br.com.kardec.loja.dao.ProdudoDao;
 import br.com.kardec.loja.modelo.*;
 import br.com.kardec.loja.util.JPAUtil;
-import br.com.kardec.loja.vo.RelatorioDeVendasVo;
 
 import javax.persistence.EntityManager;
 import java.math.BigDecimal;
-import java.util.List;
 
-public class CadastroDePedido {
-
+public class PerformanceConsultas {
     public static void main(String[] args){
         popularBancoDeDados();
         EntityManager em = JPAUtil.getEntityManager();
-        ProdudoDao produdoDao = new ProdudoDao(em);
-        ClienteDao clienteDao = new ClienteDao(em);
-
-        Produto produto = produdoDao.buscarPorId(1l);
-        Produto produto2 = produdoDao.buscarPorId(2l);
-        Produto produto3 = produdoDao.buscarPorId(3l);
-        Cliente cliente = clienteDao.buscarPorId(1l);
-
-        em.getTransaction().begin();
-
-
-        Pedido pedido = new Pedido(cliente);
-        pedido.adicionarItem(new ItemPedido(10, pedido, produto));
-        pedido.adicionarItem(new ItemPedido(40, pedido, produto2));
-
-        Pedido pedido2 = new Pedido(cliente);
-        pedido.adicionarItem(new ItemPedido(2, pedido, produto3));
-
-        PedidoDao pedidoDao = new PedidoDao(em);
-        pedidoDao.cadastrar(pedido);
-        pedidoDao.cadastrar(pedido2);
-
-        em.getTransaction().commit();
-
-
-        BigDecimal totalVendido = pedidoDao.valorTotalVendido();
-        System.out.println("VALOR TOTAL: " + totalVendido);
-
-        List<RelatorioDeVendasVo> relatorio = pedidoDao.relatorioDeVendas();
-        relatorio.forEach(System.out::println);
+        Pedido pedido = em.find(Pedido.class, 1l);
+        System.out.println(pedido.getItens().size());
 
     }
 
@@ -61,10 +30,18 @@ public class CadastroDePedido {
 
         Cliente cliente = new Cliente("Kardec", "987654");
 
+        Pedido pedido = new Pedido(cliente);
+        pedido.adicionarItem(new ItemPedido(10, pedido,celular));
+        pedido.adicionarItem(new ItemPedido(40, pedido, videogame));
+
+        Pedido pedido2 = new Pedido(cliente);
+        pedido2.adicionarItem(new ItemPedido(2, pedido, macbook));
+
         EntityManager em = JPAUtil.getEntityManager();
         ProdudoDao produtoDao = new ProdudoDao(em);
         CategoriaDao categoriaDao = new CategoriaDao(em);
         ClienteDao clienteDao = new ClienteDao(em);
+        PedidoDao pedidoDao = new PedidoDao(em);
 
         em.getTransaction().begin();
 
@@ -76,6 +53,7 @@ public class CadastroDePedido {
         produtoDao.cadastrar(videogame);
         produtoDao.cadastrar(macbook);
         clienteDao.cadastrar(cliente);
+        pedidoDao.cadastrar(pedido);
 
         em.getTransaction().commit();
         em.close();
